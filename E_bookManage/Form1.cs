@@ -17,6 +17,7 @@ namespace E_bookManage
     {
         public static string ebookFolderPath = @"D:\04. Learning\38. Ebook Manage";
         public static string TEMP_FOLDERPATH = @"\\coteccons.vn\filesv\DATAPUBLIC\nhantc\ebookManage";
+        public static string LOCAL_FOLDERPATH = @"D:\BIMtools";
         public frm_EbookManage()
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace E_bookManage
             foreach (var item in filelist)
             {
                 ebook _ebook = new ebook();
-                _ebook.tenfile = System.IO.Path.GetFileName(item);
+                _ebook.tenfile = System.IO.Path.GetFileNameWithoutExtension(item);
                 //Lấy năm tạo ra
                 DateTime dateTime = File.GetLastWriteTime(item);
                 string _year = dateTime.Year.ToString();
@@ -81,18 +82,21 @@ namespace E_bookManage
                         dgv_ebooks.Rows[index].Cells["ID"].Value = item.id;
                         dgv_ebooks.Rows[index].Cells["NamXB"].Value = item.namXB;
                         dgv_ebooks.Rows[index].Cells["tenfile"].Value = item.tenfile;
-                        dgv_ebooks.Rows[index].Cells["TenSach"].Value = item.name;
+                        dgv_ebooks.Rows[index].Cells["TenSach"].Value = XuLyDuLieu.LoaiBoDauTiengViet(item.tenfile);
                         dgv_ebooks.Rows[index].Cells["Tag"].Value = item.tag;
                         dgv_ebooks.Rows[index].Cells["link"].Value = item.link;
 
+                        //dgv_ebooks.Rows[index].Cells["cmb_Catalogue"].Value = ebook.Chude.Guildline;
                         cmbCatalogue = (DataGridViewComboBoxCell)dgv_ebooks.Rows[index].Cells["cmb_Catalogue"];
+
                         foreach (var chude in listItem)
                         {
                             cmbCatalogue.Items.Add(chude.ToString());
+                            cmbCatalogue.Value = ebook.Chude.Guildline.ToString(); //tạo giá trị mặc định
                         }
                         index++;
                         StatusProgressBar.Value = index;
-                    }
+                    }                    
                     return kq = "Cập nhật nội dung thành công";
                 }
                 catch (ArgumentException ex)
@@ -143,15 +147,18 @@ namespace E_bookManage
                 _ebook.namXB = double.Parse(dgv_ebooks.Rows[i].Cells["NamXB"].Value.ToString());
                 _ebook.tenfile = dgv_ebooks.Rows[i].Cells["tenfile"].Value.ToString();
                 _ebook.name = dgv_ebooks.Rows[i].Cells["TenSach"].Value.ToString();
+                _ebook.chude = dgv_ebooks.Rows[i].Cells["cmb_Catalogue"].Value.ToString();
                 //_ebook.tag = dgv_ebooks.Rows[i].Cells["Tag"].Value.ToString();
                 UPDATELIST.Add(_ebook);
                 StatusProgressBar.Value++;
             }
             lblStatus.Text = WriteXML(TEMP_FOLDERPATH, UPDATELIST);
+            //lblStatus.Text = WriteXML(LOCAL_FOLDERPATH, UPDATELIST);
         }
 
         private string WriteXML(string path, List<ebook> data)
         {
+            string tenfileloi = "";
             try
             {
                 //XML
@@ -175,25 +182,80 @@ namespace E_bookManage
                     XmlElement IDNode = tailieu.CreateElement("ID");
                     IDNode.InnerText = _item.id.ToString();
                     nameNode.AppendChild(IDNode);
+
+                    //Chude
+                    XmlElement ChuDeNode = tailieu.CreateElement("ChuDe");
+                    if (_item.chude != null)
+                    {
+                        ChuDeNode.InnerText = XuLyDuLieu.LoaiBoDauTiengViet(_item.chude.ToString());
+                        nameNode.AppendChild(ChuDeNode);
+                    }
+                    else
+                    {
+                        ChuDeNode.InnerText = "Not set";
+                        nameNode.AppendChild(ChuDeNode);
+                    }
+
+
                     //TenFile
                     XmlElement fileNameNode = tailieu.CreateElement("TenFile");
                     fileNameNode.InnerText = XuLyDuLieu.LoaiBoDauTiengViet(_item.tenfile);
                     nameNode.AppendChild(fileNameNode);
+
                     //Năm Xuất bản
                     XmlElement NamXBNode = tailieu.CreateElement("NamXB");
                     NamXBNode.InnerText = _item.namXB.ToString();
                     nameNode.AppendChild(NamXBNode);
+
                     //Liên kết
                     XmlElement LinkNode = tailieu.CreateElement("Link");
                     LinkNode.InnerText = XuLyDuLieu.LoaiBoDauTiengViet(_item.link);
                     nameNode.AppendChild(LinkNode);
+                    tenfileloi = _item.tenfile;
                 }
                 tailieu.Save(path);
                 return "Ghi file thành công";
             }
             catch (Exception ex)
             {
-                return "Ghi file thất bại do " + ex.Message;
+                return "Ghi file thất bại do " + ex.Message + "- Tên file: " + tenfileloi;
+            }
+        }
+
+        private string RenameFile(string tenfile, string _path)
+        {
+            string NEWFILENAME = "";
+            string OLDFILENAME = Path.GetFileName(tenfile);
+            string OLDFILEEXTENSION = Path.GetExtension(_path);
+            NEWFILENAME = XuLyDuLieu.LoaiBoDauTiengViet(OLDFILENAME);
+            try
+            {
+
+                System.IO.File.Move(OLDFILENAME, NEWFILENAME);
+                return "Đổi tên file thành công";
+            }
+            catch (Exception ex)
+            {
+                return "Đổi tên file thất bại do "+ ex.Message;
+
+            }
+
+        }
+
+        private void btn_RenameFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<ebook> books = GetBooks(TEMP_FOLDERPATH);
+                foreach (var item in books)
+                {
+                    string tenFile = RenameFile(item.name,item.link);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
