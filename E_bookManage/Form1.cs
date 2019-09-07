@@ -16,8 +16,8 @@ namespace E_bookManage
     public partial class frm_EbookManage : Form
     {
         public static string ebookFolderPath = @"D:\04. Learning\38. Ebook Manage";
-        public static string TEMP_FOLDERPATH = @"\\coteccons.vn\filesv\DATAPUBLIC\nhantc\ebookManage";
-        public static string LOCAL_FOLDERPATH = @"D:\BIMtools";
+        //public static string TEMP_FOLDERPATH = @"\\coteccons.vn\filesv\DATAPUBLIC\nhantc\ebookManage";
+        public static string TEMP_FOLDERPATH = @"D:\BIMtools";        
         public frm_EbookManage()
         {
             InitializeComponent();
@@ -153,7 +153,6 @@ namespace E_bookManage
                 StatusProgressBar.Value++;
             }
             lblStatus.Text = WriteXML(TEMP_FOLDERPATH, UPDATELIST);
-            //lblStatus.Text = WriteXML(LOCAL_FOLDERPATH, UPDATELIST);
         }
 
         private string WriteXML(string path, List<ebook> data)
@@ -222,16 +221,17 @@ namespace E_bookManage
             }
         }
 
-        private string RenameFile(string tenfile, string _path)
+        private string RenameFile(string tenfile, string _path, string tEMP_FOLDERPATH)
         {
             string NEWFILENAME = "";
-            string OLDFILENAME = Path.GetFileName(tenfile);
-            string OLDFILEEXTENSION = Path.GetExtension(_path);
+            string OLDFILENAME = Path.GetFileName(_path);
+            //string OLDFILEEXTENSION = Path.GetExtension(_path);
             NEWFILENAME = XuLyDuLieu.LoaiBoDauTiengViet(OLDFILENAME);
+
             try
             {
-
-                System.IO.File.Move(OLDFILENAME, NEWFILENAME);
+                string FullPathNewName = tEMP_FOLDERPATH + NEWFILENAME;
+                System.IO.File.Move(_path, FullPathNewName);
                 return "Đổi tên file thành công";
             }
             catch (Exception ex)
@@ -246,10 +246,11 @@ namespace E_bookManage
         {
             try
             {
-                List<ebook> books = GetBooks(TEMP_FOLDERPATH);
+                List<ebook> books = new List<ebook>();
+                books = GetBooks(ebookFolderPath);
                 foreach (var item in books)
                 {
-                    string tenFile = RenameFile(item.name,item.link);
+                    string tenFile = RenameFile(item.name,item.link, TEMP_FOLDERPATH);
                 }
             }
             catch (Exception)
