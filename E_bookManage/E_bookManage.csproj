@@ -69,6 +69,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\EbookManage.Data.ebook+Chude.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,6 +128,7 @@
     <Content Include="Data\Icons\Error.png" />
     <Content Include="Data\Icons\Exit.png" />
     <Content Include="Data\Icons\Find.png" />
+    <Content Include="Data\Icons\Graphicloads-Filetype-Excel-xls.ico" />
     <Content Include="Data\Icons\Open file.png" />
     <Content Include="Data\Icons\output.ico" />
     <Content Include="Data\Icons\Pantone.png" />

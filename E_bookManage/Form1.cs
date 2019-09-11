@@ -16,8 +16,12 @@ namespace E_bookManage
     public partial class frm_EbookManage : Form
     {
         public static string ebookFolderPath = @"D:\04. Learning\38. Ebook Manage";
+        private static List<ebook> cURRENT_EBOOK_LIST = new List<ebook>();
         //public static string TEMP_FOLDERPATH = @"\\coteccons.vn\filesv\DATAPUBLIC\nhantc\ebookManage";
-        public static string TEMP_FOLDERPATH = @"D:\BIMtools";        
+        public static string TEMP_FOLDERPATH = @"D:\BIMtools";
+
+        internal static List<ebook> CURRENT_EBOOK_LIST { get => cURRENT_EBOOK_LIST; set => cURRENT_EBOOK_LIST = value; }
+
         public frm_EbookManage()
         {
             InitializeComponent();
@@ -33,25 +37,46 @@ namespace E_bookManage
         {
             List<ebook> ebooks = new List<ebook>();
             string[] filelist = Directory.GetFiles(path);
-            foreach (var item in filelist)
+            if (filelist.Length > 0)
             {
-                ebook _ebook = new ebook();
-                _ebook.tenfile = System.IO.Path.GetFileNameWithoutExtension(item);
-                //Lấy năm tạo ra
-                DateTime dateTime = File.GetLastWriteTime(item);
-                string _year = dateTime.Year.ToString();
-                string _id = _year.Substring(2);
-                //Add value to ebook
-                _ebook.namXB = double.Parse(_year);
-                _ebook.id = int.Parse(_id);
-                _ebook.name = Path.GetFileName(item);
-                _ebook.link = Path.GetFullPath(item);
-                string info = _id + "_" + Path.GetFileName(item);
+                foreach (var item in filelist)
+                {
+                    ebook _ebook = new ebook();//Tạo ra sách mới
+                    //Lấy năm tạo ra
+                    DateTime dateTime = File.GetLastWriteTime(item);
+                    string _year = dateTime.Year.ToString();
+                    string _id = _year.Substring(2);
+                    string tenfile = System.IO.Path.GetFileNameWithoutExtension(item);
+                    string fileformat = System.IO.Path.GetExtension(item);
+                    FileInfo fi = new FileInfo(item);
+                    double kichthuoc = fi.Length;
 
-                ebooks.Add(_ebook);
+                    //Add value to ebook
+                    _ebook.namXB = double.Parse(_year);
+                    _ebook.id = int.Parse(_id);
+                    _ebook.tenfile = tenfile;
+                    _ebook.name = XuLyDuLieu.LoaiBoDauTiengViet(tenfile);
+                    _ebook.link = Path.GetFullPath(item);
+                    _ebook.dinhdang = fileformat;
+                    _ebook.chude = "chưa cập nhật";
+                    _ebook.filesize = kichthuoc;
+
+                    string info = _id + "_" + Path.GetFileName(item);
+
+                    ebooks.Add(_ebook);
+                    CURRENT_EBOOK_LIST.Add(_ebook);
+                }
+
+                return ebooks;
             }
-            return ebooks;
+            else
+            {
+                return null;
+            }
+
         }
+
+
 
         /// <summary>
         /// 
@@ -65,9 +90,10 @@ namespace E_bookManage
             try
             {
                 List<ebook> books = new List<ebook>();
-                books = GetBooks(FolderPath).OrderBy(s => s.namXB).ToList();
+                books = GetBooks(FolderPath);
+                List<ebook> newbook = books.OrderBy(s => s.namXB).ToList();
+                if (newbook == null || newbook.Count == 0) return "Không có sách";
                 int index = 0;
-
                 int _a = Enum.GetValues(typeof(ebook.Chude)).Length;
                 Array listItem = new string[_a];
                 listItem = Enum.GetValues(typeof(ebook.Chude));
@@ -96,7 +122,7 @@ namespace E_bookManage
                         }
                         index++;
                         StatusProgressBar.Value = index;
-                    }                    
+                    }
                     return kq = "Cập nhật nội dung thành công";
                 }
                 catch (ArgumentException ex)
@@ -236,7 +262,7 @@ namespace E_bookManage
             }
             catch (Exception ex)
             {
-                return "Đổi tên file thất bại do "+ ex.Message;
+                return "Đổi tên file thất bại do " + ex.Message;
 
             }
 
@@ -250,7 +276,7 @@ namespace E_bookManage
                 books = GetBooks(ebookFolderPath);
                 foreach (var item in books)
                 {
-                    string tenFile = RenameFile(item.name,item.link, TEMP_FOLDERPATH);
+                    string tenFile = RenameFile(item.name, item.link, TEMP_FOLDERPATH);
                 }
             }
             catch (Exception)
@@ -258,6 +284,12 @@ namespace E_bookManage
 
                 throw;
             }
+        }
+
+        private void Btn_ToExcel_Click(object sender, EventArgs e)
+        {
+            lblStatus.Text = XuLyDuLieu.WriteToExcel(TEMP_FOLDERPATH, CURRENT_EBOOK_LIST);
+
         }
     }
 }

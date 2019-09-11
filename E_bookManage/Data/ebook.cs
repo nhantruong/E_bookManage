@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EbookManage.Data
 {
-    class ebook
+    public class ebook
     {
         #region PROPPERTIES
         public enum Chude
@@ -67,6 +67,21 @@ namespace EbookManage.Data
             set { _link = value; }
         }
 
+        private double _filesize;
+
+        public double filesize
+        {
+            get { return _filesize; }
+            set { _filesize = value; }
+        }
+        private string _dinhdang;
+
+        public string dinhdang
+        {
+            get { return _dinhdang; }
+            set { _dinhdang = value; }
+        }
+
 
         #endregion
 
@@ -84,7 +99,7 @@ namespace EbookManage.Data
         /// <param name="_chude"></param>
         /// <param name="_namXB"></param>
         /// <param name="_tenfile"></param>
-        public ebook(int _id, string _name, string _chude, double _namXB, string _tenfile, string _link)
+        public ebook(int _id, string _name, string _chude, double _namXB, string _tenfile, string _link, double _filesize, string _dinhdang)
         {
             this.id = _id;
             this.name = _name;
@@ -92,6 +107,8 @@ namespace EbookManage.Data
             this.namXB = _namXB;
             this.tenfile = _tenfile;
             this.link = _link;
+            this.filesize = _filesize;
+            this.dinhdang = _dinhdang;
         }
 
         #endregion

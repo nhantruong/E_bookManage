@@ -43,20 +43,21 @@
             this.StatusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_EbookManage = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_ToExcel = new System.Windows.Forms.Button();
+            this.btn_RenameFile = new System.Windows.Forms.Button();
             this.btn_LoadList = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
+            this.btn_EbookManage = new System.Windows.Forms.Button();
+            this.selectFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chudeBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.btn_RenameFile = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ebooks)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -171,21 +172,6 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // selectFolderToolStripMenuItem
-            // 
-            this.selectFolderToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Open_file;
-            this.selectFolderToolStripMenuItem.Name = "selectFolderToolStripMenuItem";
-            this.selectFolderToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.selectFolderToolStripMenuItem.Text = "Select Folder";
-            this.selectFolderToolStripMenuItem.Click += new System.EventHandler(this.selectFolderToolStripMenuItem_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Exit;
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            // 
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -194,13 +180,6 @@
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
             // 
-            // optionToolStripMenuItem
-            // 
-            this.optionToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Pinion;
-            this.optionToolStripMenuItem.Name = "optionToolStripMenuItem";
-            this.optionToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
-            this.optionToolStripMenuItem.Text = "Option";
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -208,13 +187,6 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Find;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem.Text = "About";
             // 
             // groupBox1
             // 
@@ -226,23 +198,6 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Main Panel";
-            // 
-            // btn_EbookManage
-            // 
-            this.btn_EbookManage.AutoSize = true;
-            this.btn_EbookManage.BackColor = System.Drawing.Color.LightGray;
-            this.btn_EbookManage.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btn_EbookManage.ForeColor = System.Drawing.Color.Black;
-            this.btn_EbookManage.Image = global::E_bookManage.Properties.Resources.Check_boxes;
-            this.btn_EbookManage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_EbookManage.Location = new System.Drawing.Point(3, 16);
-            this.btn_EbookManage.Name = "btn_EbookManage";
-            this.btn_EbookManage.Size = new System.Drawing.Size(139, 38);
-            this.btn_EbookManage.TabIndex = 0;
-            this.btn_EbookManage.Text = "Ebooks Manage";
-            this.btn_EbookManage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_EbookManage.UseVisualStyleBackColor = false;
-            this.btn_EbookManage.Click += new System.EventHandler(this.btn_EbookManage_Click);
             // 
             // groupBox2
             // 
@@ -258,6 +213,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btn_ToExcel);
             this.groupBox3.Controls.Add(this.btn_RenameFile);
             this.groupBox3.Controls.Add(this.btn_LoadList);
             this.groupBox3.Controls.Add(this.btn_Save);
@@ -267,6 +223,34 @@
             this.groupBox3.Size = new System.Drawing.Size(883, 61);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
+            // 
+            // btn_ToExcel
+            // 
+            this.btn_ToExcel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btn_ToExcel.Image = global::E_bookManage.Properties.Resources.Graphicloads_Filetype_Excel_xls;
+            this.btn_ToExcel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_ToExcel.Location = new System.Drawing.Point(311, 16);
+            this.btn_ToExcel.Name = "btn_ToExcel";
+            this.btn_ToExcel.Size = new System.Drawing.Size(123, 42);
+            this.btn_ToExcel.TabIndex = 4;
+            this.btn_ToExcel.Text = "Xuất qua Excel";
+            this.btn_ToExcel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_ToExcel.UseVisualStyleBackColor = true;
+            this.btn_ToExcel.Click += new System.EventHandler(this.Btn_ToExcel_Click);
+            // 
+            // btn_RenameFile
+            // 
+            this.btn_RenameFile.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btn_RenameFile.Image = global::E_bookManage.Properties.Resources.Pinion;
+            this.btn_RenameFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_RenameFile.Location = new System.Drawing.Point(178, 16);
+            this.btn_RenameFile.Name = "btn_RenameFile";
+            this.btn_RenameFile.Size = new System.Drawing.Size(133, 42);
+            this.btn_RenameFile.TabIndex = 3;
+            this.btn_RenameFile.Text = "Đổi tên File ebook";
+            this.btn_RenameFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_RenameFile.UseVisualStyleBackColor = true;
+            this.btn_RenameFile.Click += new System.EventHandler(this.btn_RenameFile_Click);
             // 
             // btn_LoadList
             // 
@@ -297,23 +281,55 @@
             this.btn_Save.UseVisualStyleBackColor = false;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
+            // btn_EbookManage
+            // 
+            this.btn_EbookManage.AutoSize = true;
+            this.btn_EbookManage.BackColor = System.Drawing.Color.LightGray;
+            this.btn_EbookManage.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btn_EbookManage.ForeColor = System.Drawing.Color.Black;
+            this.btn_EbookManage.Image = global::E_bookManage.Properties.Resources.Check_boxes;
+            this.btn_EbookManage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_EbookManage.Location = new System.Drawing.Point(3, 16);
+            this.btn_EbookManage.Name = "btn_EbookManage";
+            this.btn_EbookManage.Size = new System.Drawing.Size(139, 38);
+            this.btn_EbookManage.TabIndex = 0;
+            this.btn_EbookManage.Text = "Ebooks Manage";
+            this.btn_EbookManage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_EbookManage.UseVisualStyleBackColor = false;
+            this.btn_EbookManage.Click += new System.EventHandler(this.btn_EbookManage_Click);
+            // 
+            // selectFolderToolStripMenuItem
+            // 
+            this.selectFolderToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Open_file;
+            this.selectFolderToolStripMenuItem.Name = "selectFolderToolStripMenuItem";
+            this.selectFolderToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.selectFolderToolStripMenuItem.Text = "Select Folder";
+            this.selectFolderToolStripMenuItem.Click += new System.EventHandler(this.selectFolderToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Exit;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // optionToolStripMenuItem
+            // 
+            this.optionToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Pinion;
+            this.optionToolStripMenuItem.Name = "optionToolStripMenuItem";
+            this.optionToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.optionToolStripMenuItem.Text = "Option";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Image = global::E_bookManage.Properties.Resources.Find;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
             // chudeBindingSource
             // 
             this.chudeBindingSource.DataSource = typeof(EbookManage.Data.ebook.Chude);
-            // 
-            // btn_RenameFile
-            // 
-            this.btn_RenameFile.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btn_RenameFile.Image = global::E_bookManage.Properties.Resources.Pinion;
-            this.btn_RenameFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_RenameFile.Location = new System.Drawing.Point(178, 16);
-            this.btn_RenameFile.Name = "btn_RenameFile";
-            this.btn_RenameFile.Size = new System.Drawing.Size(133, 42);
-            this.btn_RenameFile.TabIndex = 3;
-            this.btn_RenameFile.Text = "Đổi tên File ebook";
-            this.btn_RenameFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_RenameFile.UseVisualStyleBackColor = true;
-            this.btn_RenameFile.Click += new System.EventHandler(this.btn_RenameFile_Click);
             // 
             // frm_EbookManage
             // 
@@ -373,6 +389,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ToolStripProgressBar StatusProgressBar;
         private System.Windows.Forms.Button btn_RenameFile;
+        private System.Windows.Forms.Button btn_ToExcel;
     }
 }
 
