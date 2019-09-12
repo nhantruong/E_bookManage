@@ -29,17 +29,30 @@ namespace E_bookManage
 
         #region Methods
         /// <summary>
-        /// Get books form path
+        /// Get books form path - including SubFolder
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         private List<ebook> GetBooks(string path)
         {
             List<ebook> ebooks = new List<ebook>();
-            string[] filelist = Directory.GetFiles(path);
-            if (filelist.Length > 0)
+            string[] folderlist = Directory.GetDirectories(path);
+            List<string[]> AllFileList = new List<string[]>();
+            foreach (var _folder in folderlist)
             {
-                foreach (var item in filelist)
+                AllFileList.Add(Directory.GetFiles(_folder));
+            }
+            List<string> allFiles = new List<string>();
+            foreach (var item in AllFileList)
+            {
+                for (int i = 0; i < item.Length; i++)
+                {
+                    allFiles.Add(item[i]);
+                }
+            }
+            if (allFiles.Count > 0)
+            {                
+                foreach (var item in allFiles)
                 {
                     ebook _ebook = new ebook();//Tạo ra sách mới
                     //Lấy năm tạo ra
